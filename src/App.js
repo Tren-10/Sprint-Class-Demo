@@ -1,23 +1,18 @@
-// App.js
 
 import React from 'react';
-import {
-    BrowserRouter as Router,
-    Route,
-    Switch
-} from 'react-router-dom';
-import NasaPage from './NasaPage'; // Import NasaPage component
+import { BrowserRouter, Routes, Route, Outlet } from 'react-router-dom';
 
+import NasaPage from './NasaPage';
 
 const App = () => {
     return (
-        <Router>
-            <Switch>
-
-                <Route path="/nasa" component={NasaPage} /> {/* NASA API page */}
-            </Switch>
-        </Router>
+        <BrowserRouter>
+            <Nav /> {/* Nav stays consistent */}
+            <Routes>
+                <Route path="/" element={<Outlet />}> {/* Other routes nested here */}
+                    <Route path="nasa" element={<NasaImages />} />
+                </Route>
+            </Routes>
+        </BrowserRouter>
     );
 };
-
-export default App;

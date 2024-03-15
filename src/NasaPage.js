@@ -1,49 +1,36 @@
-// NasaPage.js
-
 import React, { useState, useEffect } from 'react';
-import axios from 'axios'; // Import axios for making HTTP requests
+import axios from 'axios';
 
-const NasaPage = () => {
-    // Define state variables to hold API data
-    const [pictureOfDay, setPictureOfDay] = useState(null);
+const NasaImages = () => {
+    const [pictureOfTheDay, setPictureOfTheDay] = useState({});
     const [selectedDate, setSelectedDate] = useState('');
-    const [countOfImages, setCountOfImages] = useState(0);
-    const [imagesBetweenDates, setImagesBetweenDates] = useState([]);
+    // ... states for count, fromDate, toDate
 
-    // Function to fetch NASA API data
-    const fetchNasaData = async () => {
-        try {
-            // Make API request to fetch picture of the day
-            const response = await axios.get('/nasa/apod');
-            setPictureOfDay(response.data);
-
-
-
-        } catch (error) {
-            console.error('Error fetching NASA data:', error);
-        }
+    const fetchPictureOfTheDay = async () => {
+        const response = await axios.get('http://localhost:8080/api/nasa/picture-of-the-day');
+        setPictureOfTheDay(response.data);
     };
 
-    // Fetch NASA data on component mount
+    // ... similar fetch functions for other API calls
+
     useEffect(() => {
-        fetchNasaData();
+        fetchPictureOfTheDay();
     }, []);
+
+    // ... input handlers for date, count etc
 
     return (
         <div>
-            <h1>NASA API Page</h1>
-            {/* Render picture of the day */}
-            {pictureOfDay && (
+            {/* Form inputs here for date, count, etc. */}
+
+            {pictureOfTheDay.url && (
                 <div>
-                    <img src={pictureOfDay.url} alt={pictureOfDay.title} />
-                    <p>{pictureOfDay.title}</p>
-                    <p>{pictureOfDay.explanation}</p>
+                    <h2>Picture of the Day</h2>
+                    <img src={pictureOfTheDay.url} alt={pictureOfTheDay.title} />
                 </div>
             )}
-            {/* Add inputs for selected date, count of images, etc. */}
-            {/* Implement logic for selecting date, fetching images between dates, etc. */}
+
+            {/* ... similar sections to display images by date, date range and count.  Remember to map through arrays when necessary */}
         </div>
     );
 };
-
-export default NasaPage;
